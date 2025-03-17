@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+
+.Footer{
+    width: 100%;
+    height: 30vh;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+    box-sizing: border-box;
+    padding: 30px;
+    
+    
+    background-color: #24262b;
+}
+
+
+.Column{
+    width: 20%;
+    height: 100%;
+
+
+    
+}
+
+.ColumnContent{
+    width: 100%;
+    height: 100%;
+    
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    
+    
+}
+
+.ColumnContent h1{
+    width: 50%;
+    height: 20%;
+    text-align: justify;
+    font-weight: 400;
+
+    color: white;
+
+    border-bottom: 2px solid #e91e63 ;
+    
+}
+
+
+.ColumnContent nav{
+    width: 100%;
+    height: 80%;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+    
+}
+
+.ColumnContent nav a {
+    color: #bbbbbb;
+    text-align: justify;
+    font-weight: 400;
+    
+    
+    transition: 400ms ease-in-out;
+}
+
+.ColumnContent nav a:hover{
+    color: white;
+    font-weight: 700;
+    padding-left: 10px;
+}
+
+
+
+.ColumnMedia{
+    width: 100%;
+    height: 100%;
+    
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+    
+}
+
+.ColumnMedia h1{
+    width: 50%;
+    height: 20%;
+    text-align: justify;
+    font-weight: 400;
+
+    color: white;
+
+    border-bottom: 2px solid #e91e63 ;
+    
+}
+
+
+.ColumnMedia nav{
+    width: 100%;
+    height: 80%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    
+    
+}
+
+.FaIcon{
+    color: #bbbbbb;
+    height: 1.7rem;
+    transition: 400ms ease-in-out;
+}
+
+.FaIcon:hover{
+    color: white;
+    scale: 1.2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

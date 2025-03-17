@@ -1,0 +1,32 @@
+{
+  "spent": [
+    {
+      "id": "38a0",
+      "description": "ifood",
+      "value": 50,
+      "date": "04/02/25",
+      "category": "alimentacao"
+    },
+    {
+      "id": "b1b3",
+      "description": "fone de ouvido",
+      "value": "390",
+      "date": "2025-02-09",
+      "category": "outro"
+    },
+    {
+      "id": "839a",
+      "description": "pastel de flango ",
+      "value": "12,99",
+      "date": "2025-03-17",
+      "category": "alimentacao"
+    },
+    {
+      "id": "09d6",
+      "description": "tratamento psicológico ",
+      "value": "300",
+      "date": "2025-03-17",
+      "category": "imprevisto"
+    }
+  ]
+}
