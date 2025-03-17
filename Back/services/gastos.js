@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 // Rota para listar todos os gastos
 async function GetGastos(req, res) {
     try {
-        const gastos = await prisma.gasto.findMany();
+        const gastos = await prisma.gastos.findMany();
         res.json(gastos);
     } catch (error) {
         res.status(500).json({ error: "Erro ao buscar gastos" });
@@ -17,7 +17,7 @@ async function GetGastos(req, res) {
 async function GetIdGastos(req, res) {
     try {
         const { id } = req.params;
-        const gasto = await prisma.gasto.findUnique({ where: { id } });
+        const gasto = await prisma.gastos.findUnique({ where: { id } });
 
         if (!gasto) {
             return res.status(404).json({ error: "Gasto não encontrado" });
@@ -32,9 +32,9 @@ async function GetIdGastos(req, res) {
 // Rota para adicionar um novo gasto
 async function PostGastos(req, res) {
     try {
-        const { descricao, valor, categoria, data } = req.body;
-        const novoGasto = await prisma.gasto.create({
-            data: { descricao, valor: parseFloat(valor), categoria, data: new Date(data) },
+        const { descricao, valor, data, categoria } = req.body;
+        const novoGasto = await prisma.gastos.create({
+            data: { descricao, valor: parseFloat(valor),data: new Date(data), categoria  },
         });
         res.status(201).json(novoGasto);
     } catch (error) {
@@ -48,13 +48,13 @@ async function DeleteGastos(req, res) {
     try {
         const { id } = req.params;
 
-        const gastoExiste = await prisma.gasto.findUnique({ where: { id } });
+        const gastoExiste = await prisma.gastos.findUnique({ where: { id } });
 
         if (!gastoExiste) {
             return res.status(404).json({ error: "Gasto não encontrado" });
         }
 
-        await prisma.gasto.delete({ where: { id } });
+        await prisma.gastos.delete({ where: { id } });
 
         res.json({ message: "Gasto excluído com sucesso!" });
     } catch (error) {

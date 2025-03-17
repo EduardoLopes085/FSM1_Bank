@@ -12,3 +12,24 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model User {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  idade     Int
+  email     String  @unique
+  senha     String //armazenado a senha como string mesmo, sem nenhuma segurança
+  gastos  Gastos[]
+}
+
+model Gastos {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  descricao    String
+  valor Float
+  data DateTime @default(now()) @db.Date
+  categoria String
+  
+  user      User     @relation(fields: [userId], references: [id])
+}
