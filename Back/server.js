@@ -5,7 +5,7 @@ PORT = 4000;
 app.use(express.json());
 
 app.get('/',(req,res)=>{
-    res.send('servidor tá funfando');
+    res.send('servidor tá funcionando');
 });
 
 app.listen(PORT,()=>{
