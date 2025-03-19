@@ -31,27 +31,26 @@ async function GetIdGastos(req, res) {
     }
 }
 
-// async function GastosPorUser(req, res) {
-//     const { id } = req.params; 
+// Função para buscar os gastos de um usuário
+async function GastosPorUser (req, res) {
+    const { id } = req.params; 
 
-//     try {
-//         const userWithGastos = await prisma.user.findUnique({
-//             where: { id: parseInt(id) }, 
-//             include: { gastos: true }, // Incluindo os gastos do usuário
-//         });
+    try {
+        const gastos = await prisma.gastos.findMany({
+            where: { userId: parseInt(id) }, // Filtra os gastos pelo userId
+        });
 
-//         if (!userWithGastos) {
-//             return res.status(404).json({ error: "Usuário não encontrado" });
-//         }
 
-//         res.status(201).json(userWithGastos); 
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: "Erro ao buscar gastos do usuário" });
-//     }
-    
-// }
+        if (gastos.length === 0) {
+            return res.status(404).json({ error: "Nenhum gasto encontrado para este usuário" });
+        }
 
+        res.status(200).json(gastos); 
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao buscar gastos do usuário" });
+    }
+}
 
 // Rota para adicionar um novo gasto
 async function PostGastos(req, res) {
@@ -96,6 +95,7 @@ async function DeleteGastos(req, res) {
 module.exports = {
     GetGastos,
     GetIdGastos,
+    GastosPorUser,
     PostGastos,
     DeleteGastos
 };

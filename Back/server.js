@@ -3,7 +3,7 @@ const app = express();
 
 const {GetUsers, GetIdUsers, PostUsers, PutUsers, DeleteUsers} = require('./services/users')
 
-const {GetGastos, GetIdGastos, PostGastos, DeleteGastos} = require('./services/gastos')
+const {GetGastos, GetIdGastos, GastosPorUser, PostGastos, DeleteGastos} = require('./services/gastos')
 
 
 
@@ -29,6 +29,7 @@ app.get("/gastos", GetGastos)
 
 app.get("/gastos/:id", GetIdGastos)
 
+app.get('/gastosPorUser/:id', GastosPorUser )
 
 app.post("/gastos", PostGastos)
 
