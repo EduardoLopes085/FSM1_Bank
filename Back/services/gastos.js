@@ -17,7 +17,9 @@ async function GetGastos(req, res) {
 async function GetIdGastos(req, res) {
     try {
         const { id } = req.params;
-        const gasto = await prisma.gastos.findUnique({ where: { id } });
+        const gasto = await prisma.gastos.findUnique({ where: { id: parseInt(id) } });
+
+        
 
         if (!gasto) {
             return res.status(404).json({ error: "Gasto não encontrado" });
@@ -29,12 +31,40 @@ async function GetIdGastos(req, res) {
     }
 }
 
+// async function GastosPorUser(req, res) {
+//     const { id } = req.params; 
+
+//     try {
+//         const userWithGastos = await prisma.user.findUnique({
+//             where: { id: parseInt(id) }, 
+//             include: { gastos: true }, // Incluindo os gastos do usuário
+//         });
+
+//         if (!userWithGastos) {
+//             return res.status(404).json({ error: "Usuário não encontrado" });
+//         }
+
+//         res.status(201).json(userWithGastos); 
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: "Erro ao buscar gastos do usuário" });
+//     }
+    
+// }
+
+
 // Rota para adicionar um novo gasto
 async function PostGastos(req, res) {
     try {
-        const { descricao, valor, data, categoria } = req.body;
+        const { userId, descricao, valor, data, categoria } = req.body;
+
+        if (!userId) {
+            return res.status(400).json({ error: "userId é obrigatório" });
+        }
+
+
         const novoGasto = await prisma.gastos.create({
-            data: { descricao, valor: parseFloat(valor),data: new Date(data), categoria  },
+            data: { descricao, valor: parseFloat(valor),data: new Date(data), categoria, userId  },
         });
         res.status(201).json(novoGasto);
     } catch (error) {
@@ -48,7 +78,7 @@ async function DeleteGastos(req, res) {
     try {
         const { id } = req.params;
 
-        const gastoExiste = await prisma.gastos.findUnique({ where: { id } });
+        const gastoExiste = await prisma.gastos.findUnique({ where: { id: parseInt(id) } });
 
         if (!gastoExiste) {
             return res.status(404).json({ error: "Gasto não encontrado" });

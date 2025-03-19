@@ -29,6 +29,7 @@ app.get("/gastos", GetGastos)
 
 app.get("/gastos/:id", GetIdGastos)
 
+
 app.post("/gastos", PostGastos)
 
 app.delete("/gastos/:id", DeleteGastos)
