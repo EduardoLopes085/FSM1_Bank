@@ -1,3 +1,75 @@
+.imgLogin{
+    width: fit-content;
+    height: 200px;
+    width: 200px;
+
+    
+}
 h1{
-    color: red;
+    color: #e91e63;
+}
+
+
+#divLogin{
+    display: flex;
+   
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    background-color: #2c2f36;
+    
+    
+    
+}
+
+#formLogin{
+    display: flex;
+    
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    gap: 2rem;
+    
+    height: 400px;
+    width: 400px;
+    
+}
+
+.inputLogin{
+    border: 2px solid #24262b;
+    outline: none; 
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease;
+    user-select: none;
+    outline: none;
+
+    width: 450px;
+    height: 3rem;
+    
+    border-radius: 8px;
+
+}
+
+.inputLogin:focus{
+    border-color: #e91e63; 
+    box-shadow: 0 0 5px rgba(233, 30, 99, 0.5); 
+}
+
+#botaoLogin{
+    height: 7vh;
+    width: 15vw;
+    
+    
+    border-radius: 8px;  
+    cursor: pointer;
+    color: black;
+    background-color: #e91e63;
+    transition: all 0.3s ease-in-out;
+    font-size: 20px;
+}
+
+#botaoLogin:hover{
+    background-color: #24262b;
+    color: #e91e63;
 }
