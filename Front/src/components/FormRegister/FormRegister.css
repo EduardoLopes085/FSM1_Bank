@@ -59,7 +59,7 @@ h1{
     box-shadow: 0 0 5px rgba(233, 30, 99, 0.5); 
 }
 
-button{
+#buttonRegister{
     height: 7vh;
     width: 15vw;
     
@@ -73,7 +73,7 @@ button{
     
 }
 
-button:hover{
+#buttonRegister:hover{
     background-color: #24262b;
     color: #e91e63;
 }

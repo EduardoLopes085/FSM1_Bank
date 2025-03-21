@@ -15,7 +15,7 @@ function FormRegister() {
 
                 <input className='input' type="password" name='senha' placeholder='Digite sua senha' required />
 
-                <button type='submit'>Cadastrar</button>
+                <button id='buttonRegister' type='submit'>Cadastrar</button>
             </form>
         </div>
         

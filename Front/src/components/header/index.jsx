@@ -11,7 +11,7 @@ function Header() {
 
         <a href="/">Home</a>
         <a href="/addspent">Adicionar Gasto</a>
-        <a href="">Lista de Gastos</a>
+        <a href="spentList">Lista de Gastos</a>
         <a href="/ChartsPage">Relatórios</a>
 
       </nav>

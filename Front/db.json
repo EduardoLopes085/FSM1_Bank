@@ -27,6 +27,20 @@
       "value": "300",
       "date": "2025-03-17",
       "category": "imprevisto"
+    },
+    {
+      "id": "12e7",
+      "description": "joginho",
+      "value": "18.45",
+      "date": "2025-03-21",
+      "category": "outro"
+    },
+    {
+      "id": "b3ef",
+      "description": "blusa nova",
+      "value": "89.90",
+      "date": "2025-03-20",
+      "category": "outro"
     }
   ]
 }

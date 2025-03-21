@@ -3,6 +3,7 @@
 .CardSpent{
     box-shadow: 0 5px 10px #24262b;
     background-color: #2c2f36;
+    color: white;
 
     display: flex;
     flex-direction: column;
@@ -21,7 +22,7 @@
 
 
 .CardSpent h1 {
-    color: white;
+    color: #e91e63 ;
     font-size: 18px;
 }
 
