@@ -5,6 +5,10 @@ const {GetUsers, GetIdUsers, PostUsers, PutUsers, DeleteUsers} = require('./serv
 
 const {GetGastos, GetIdGastos, GastosPorUser, PostGastos, DeleteGastos} = require('./services/gastos')
 
+const {GetWallet, GetIdWallet} = require('./services/wallet')
+
+const GetWalletUser = require('./services/walletUser')
+
 
 
 PORT = 4000;
@@ -35,7 +39,14 @@ app.post("/gastos", PostGastos)
 
 app.delete("/gastos/:id", DeleteGastos)
 
+//Wallet
+app.get("/wallet", GetWallet)
 
+app.get("/wallet/:id", GetIdWallet)
+
+
+//WalletUsers
+app.get("/walletUsers", GetWalletUser )
 
 
 

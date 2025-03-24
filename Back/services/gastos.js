@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 // Rota para listar todos os gastos
 async function GetGastos(req, res) {
     try {
-        const gastos = await prisma.gastos.findMany();
+        const gastos = await prisma.expense.findMany();
         res.json(gastos);
     } catch (error) {
         res.status(500).json({ error: "Erro ao buscar gastos" });
@@ -17,7 +17,7 @@ async function GetGastos(req, res) {
 async function GetIdGastos(req, res) {
     try {
         const { id } = req.params;
-        const gasto = await prisma.gastos.findUnique({ where: { id: parseInt(id) } });
+        const gasto = await prisma.expense.findUnique({ where: { id: parseInt(id) } });
 
         
 
@@ -36,7 +36,7 @@ async function GastosPorUser (req, res) {
     const { id } = req.params; 
 
     try {
-        const gastos = await prisma.gastos.findMany({
+        const gastos = await prisma.expense.findMany({
             where: { userId: parseInt(id) }, // Filtra os gastos pelo userId
         });
 
@@ -55,15 +55,15 @@ async function GastosPorUser (req, res) {
 // Rota para adicionar um novo gasto
 async function PostGastos(req, res) {
     try {
-        const { userId, descricao, valor, data, categoria } = req.body;
+        const { walletId, descricao, value, date, category } = req.body;
 
-        if (!userId) {
-            return res.status(400).json({ error: "userId é obrigatório" });
+        if (!walletId) {
+            return res.status(400).json({ error: "walletId é obrigatório" });
         }
 
 
-        const novoGasto = await prisma.gastos.create({
-            data: { descricao, valor: parseFloat(valor),data: new Date(data), categoria, userId  },
+        const novoGasto = await prisma.expense.create({
+            data: { descricao, value: parseFloat(value),date: new Date(date), category, walletId  },
         });
         res.status(201).json(novoGasto);
     } catch (error) {
@@ -77,13 +77,13 @@ async function DeleteGastos(req, res) {
     try {
         const { id } = req.params;
 
-        const gastoExiste = await prisma.gastos.findUnique({ where: { id: parseInt(id) } });
+        const gastoExiste = await prisma.expense.findUnique({ where: { id: parseInt(id) } });
 
         if (!gastoExiste) {
             return res.status(404).json({ error: "Gasto não encontrado" });
         }
 
-        await prisma.gastos.delete({ where: { id } });
+        await prisma.expense.delete({ where: { id } });
 
         res.json({ message: "Gasto excluído com sucesso!" });
     } catch (error) {

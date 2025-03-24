@@ -3,12 +3,12 @@ const prisma = new PrismaClient();
 
 
 //listar todos os usarios
-async function GetUsers(req,res){
+async function GetUsers(req, res) {
     const users = await prisma.user.findMany();
     res.json(users)
 }
 
-async function GetIdUsers(req,res){
+async function GetIdUsers(req, res) {
     try {
         const id = parseInt(req.params.id);
         const users = await prisma.user.findUnique({ where: { id } })
@@ -23,27 +23,42 @@ async function GetIdUsers(req,res){
     }
 }
 
-async function PostUsers(req,res) {
+async function PostUsers(req, res) {
     try {
-        const body = req.body;
+        const { name, email, password, ownedWallets } = req.body;
 
-        if (!body.nome || !body.idade || !body.email || !body.senha) {
+        if (!body.name || !body.email || !body.password) {
             return res.status(400).json({
                 message: "Todos os campos obrigatórios devem ser preenchidos."
             });
         }
 
-        const newUser = await prisma.user.create({ data: body })
+        const newUser = await prisma.user.create({
+            data: {
+                name,
+                email,
+                password,
+                ownedWallets: {
+                    create: {
+                        name: "minha carteira",
+                    },
+                },
+
+            },
+            include: {
+                ownedWallets: true,
+            },
+        })
         res.status(201).json(newUser);
 
     } catch (error) {
         res.status(500).json({ error: "Erro ao adicionar o Usuário" });
 
     }
-    
+
 }
 
-async function PutUsers(req,res) {
+async function PutUsers(req, res) {
     try {
         const id = parseInt(req.params.id);
         const body = req.body;
@@ -62,10 +77,10 @@ async function PutUsers(req,res) {
         res.status(500).json({ error: "Erro ao atualizar Usuário" });
 
     }
-    
+
 }
 
-async function DeleteUsers(req,res) {
+async function DeleteUsers(req, res) {
     try {
 
         const id = parseInt(req.params.id)
@@ -80,7 +95,7 @@ async function DeleteUsers(req,res) {
         res.status(500).json({ error: "Erro ao excluir Usuário" });
 
     }
-    
+
 }
 
 module.exports = {
