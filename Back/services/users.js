@@ -1,6 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const bcrypt = require('bcrypt');
+
 
 //listar todos os usarios
 async function GetUsers(req, res) {
@@ -27,17 +29,19 @@ async function PostUsers(req, res) {
     try {
         const { name, email, password, ownedWallets } = req.body;
 
-        if (!body.name || !body.email || !body.password) {
+        if (!req.body.name || !req.body.email || !req.body.password) {
             return res.status(400).json({
                 message: "Todos os campos obrigatórios devem ser preenchidos."
             });
         }
 
+        const hashedPassword = await bcrypt.hash(password, 5);
+
         const newUser = await prisma.user.create({
             data: {
                 name,
                 email,
-                password,
+                password: hashedPassword,
                 ownedWallets: {
                     create: {
                         name: "minha carteira",
@@ -49,9 +53,22 @@ async function PostUsers(req, res) {
                 ownedWallets: true,
             },
         })
+        
+        // Acessa a carteira criada
+        const wallet = newUser .ownedWallets[0]; 
+
+        // Cria a entrada na tabela WalletUser 
+        await prisma.walletUser .create({
+            data: {
+                userId: newUser .id,
+                walletId: wallet.id,
+            },
+        });
+        
         res.status(201).json(newUser);
 
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Erro ao adicionar o Usuário" });
 
     }

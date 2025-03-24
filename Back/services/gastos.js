@@ -55,15 +55,15 @@ async function GastosPorUser (req, res) {
 // Rota para adicionar um novo gasto
 async function PostGastos(req, res) {
     try {
-        const { walletId, descricao, value, date, category } = req.body;
+        const { descricao, value, date, category } = req.body;
 
-        if (!walletId) {
-            return res.status(400).json({ error: "walletId é obrigatório" });
-        }
+        // if (!walletId) {
+        //     return res.status(400).json({ error: "walletId é obrigatório" });
+        // }
 
 
         const novoGasto = await prisma.expense.create({
-            data: { descricao, value: parseFloat(value),date: new Date(date), category, walletId  },
+            data: { descricao, value: parseFloat(value),date: new Date(date), category },
         });
         res.status(201).json(novoGasto);
     } catch (error) {
