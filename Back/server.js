@@ -13,11 +13,11 @@ app.use(express.json());
 
 
 //CRUD dos Users
-app.get("/users", GetUsers )
+app.get("/getusers", GetUsers )
 
-app.get("/users/:id", GetIdUsers)
+app.get("/getuserbyid/:id", GetIdUsers)
 
-app.post("/users", PostUsers)
+app.post("/postuser", PostUsers)
 
 app.put("/users/:id", PutUsers)
 

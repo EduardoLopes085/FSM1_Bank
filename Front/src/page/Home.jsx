@@ -8,7 +8,7 @@ function Home() {
   return (
     <div>
         <Header/>
-        <h1>Aqui não tem nada ainda</h1>
+        <AllSpent/>
         <Footer/>
 
     </div>

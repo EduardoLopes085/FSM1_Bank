@@ -15,21 +15,38 @@ datasource db {
 
 
 model User {
-  id        Int     @id @default(autoincrement())
-  nome      String
-  idade     Int
-  email     String  @unique
-  senha     String //armazenado a senha como string mesmo, sem nenhuma segurança
-  gastos  Gastos[]
+  id            String   @id @default(uuid())
+  name          String   @db.VarChar(255) // VARCHAR(255)
+  email         String   @unique @db.VarChar(255) // VARCHAR(255) e único
+  password      String   @db.VarChar(20) // VARCHAR(20)
+  ownedWallets  Wallet[] @relation("UserWallets") 
+  sharedWallets WalletUser[]
 }
 
-model Gastos {
-  id        Int     @id @default(autoincrement())
-  userId    Int
-  descricao    String
-  valor Float
-  data DateTime @default(now()) @db.Date
-  categoria String
-  
-  user      User     @relation(fields: [userId], references: [id])
+model Wallet {
+  id       String   @id @default(uuid())
+  name     String   @db.VarChar(255)
+  ownerId  String   
+  owner    User     @relation(fields: [ownerId], references: [id], name: "UserWallets") 
+  expenses Expense[]
+  users    WalletUser[]
+}
+
+
+model WalletUser {
+  id       String  @id @default(uuid())
+  userId   String
+  walletId String
+  user     User    @relation(fields: [userId], references: [id])
+  wallet   Wallet  @relation(fields: [walletId], references: [id])
+}
+
+model Expense {
+  id        String   @id @default(uuid())
+  descricao String   @db.VarChar(80)
+  value     Float
+  date      DateTime @default(now())
+  category  String   @db.VarChar(20)
+  walletId  String   
+  wallet    Wallet   @relation(fields: [walletId], references: [id])
 }
