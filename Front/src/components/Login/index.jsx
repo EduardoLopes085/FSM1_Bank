@@ -26,7 +26,7 @@ function Login() {
       const token = response.data.token;
 
       // Armazena o token no localStorage para autenticação em futuras requisições
-      localStorage.setItem("token", token);
+      sessionStorage.setItem("token", token);
 
       // Alerta de sucesso
       alert("Login bem-sucedido!");

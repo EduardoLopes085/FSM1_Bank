@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faTrash } from '@fortawesome/free-solid-svg-icons'
 
 function CardSpent(props) {
-  
+  const token = sessionStorage.getItem("token");
+
   function deletar(id) {
     fetch(`http://localhost:3000/spent/${id}`, {
         method: "DELETE"

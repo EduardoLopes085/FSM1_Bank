@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './addSpent.css';
 
 function AddSpent() {
+  const token = sessionStorage.getItem("token");
+  
   const [formData, setFormData] = useState({
     description: '',
     value: '',

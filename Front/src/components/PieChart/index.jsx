@@ -6,6 +6,7 @@ import '../PieChart/piechart.css';
 Chart.register(ArcElement, Tooltip, Legend);
 
 const PieChart = () => {
+  const token = sessionStorage.getItem("token");
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import './allSpents.css'
 function AllSpents() {
   
   const [spents, setSpents] = useState([]);
-
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
     fetch("http://localhost:3000/spent")
