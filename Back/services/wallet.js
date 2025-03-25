@@ -20,7 +20,15 @@ async function GetWallet(req, res) {
 async function GetIdWallet(req, res) {
     try {
         const { id } = req.params;
-        const carteira = await prisma.wallet.findUnique({ where: { id: parseInt(id) } });
+
+        const carteira = await prisma.wallet.findUnique({
+            where: { id: parseInt(id) },
+            include: {
+                owner: true, // Inclui o usuário dono da carteira
+                expenses: true, // Inclui as despesas associadas à carteira
+                users: true, // Inclui os usuários que têm acesso à carteira
+            },
+        });
 
         if (!carteira) {
             return res.status(404).json({ error: "Carteira não encontrada" });
@@ -28,9 +36,10 @@ async function GetIdWallet(req, res) {
 
         res.json(carteira);
     } catch (error) {
-        res.status(500).json({ error: "Erro ao buscar carteira" });
+        res.status(500).json({ error: `Erro ao buscar carteira. ${error}` });
     }
 }
+
 
 module.exports={
     GetWallet,

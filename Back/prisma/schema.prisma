@@ -14,37 +14,40 @@ datasource db {
 }
 
 model User {
-  id            String     @id @default(uuid()) // UUID para identificar o usuário
-  name          String     @db.VarChar(255) // Nome do usuário
-  email         String     @unique @db.VarChar(255) // Email único
-  password      String     @db.VarChar(255) // Senha criptografada
-  ownedWallets  Wallet[]   @relation("UserWallets") // Relacionamento com as carteiras que o usuário possui
+  id            Int       @id @default(autoincrement()) // Usando Int e autoincremento para ID do usuário
+  name          String    @db.VarChar(255) // Nome do usuário
+  email         String    @unique @db.VarChar(255) // Email único
+  password      String    @db.VarChar(255) // Senha criptografada
+  ownedWallets  Wallet[]  @relation("UserWallets") // Relacionamento com as carteiras que o usuário possui
   sharedWallets WalletUser[] // Relacionamento com as carteiras compartilhadas pelo usuário
 }
 
 model Wallet {
-  id       String      @id @default(uuid()) // UUID para identificar a carteira
-  name     String      @db.VarChar(255) // Nome da carteira
-  ownerId  String      // Chave estrangeira que referencia o dono da carteira (usuário)
-  owner    User        @relation(fields: [ownerId], references: [id], name: "UserWallets") // Relacionamento com o usuário dono da carteira
-  expenses Expense[]   // Relacionamento com as despesas da carteira
+  id       Int       @id @default(autoincrement()) // Usando Int e autoincremento para ID da carteira
+  name     String    @db.VarChar(255) // Nome da carteira
+  ownerId  Int      // Chave estrangeira que referencia o dono da carteira (usuário)
+  owner    User     @relation(fields: [ownerId], references: [id], name: "UserWallets") // Relacionamento com o usuário dono da carteira
+  expenses Expense[] // Relacionamento com as despesas da carteira
   users    WalletUser[] // Relacionamento com os usuários que compartilham a carteira
 }
 
 model WalletUser {
-  id       String  @id @default(uuid()) // UUID para identificar o relacionamento
-  userId   String // Chave estrangeira que referencia o usuário
-  walletId String // Chave estrangeira que referencia a carteira
-  user     User    @relation(fields: [userId], references: [id]) // Relacionamento com o usuário
-  wallet   Wallet  @relation(fields: [walletId], references: [id]) // Relacionamento com a carteira
+  id       Int   @id @default(autoincrement()) // Usando Int e autoincremento para ID do relacionamento
+  userId   Int   // Chave estrangeira que referencia o usuário
+  walletId Int   // Chave estrangeira que referencia a carteira
+  user     User  @relation(fields: [userId], references: [id]) // Relacionamento com o usuário
+  wallet   Wallet @relation(fields: [walletId], references: [id]) // Relacionamento com a carteira
 }
 
 model Expense {
-  id        String   @id @default(uuid()) // UUID para identificar a despesa
+  id        Int      @id @default(autoincrement()) // Usando Int e autoincremento para ID da despesa
   descricao String   @db.VarChar(80) // Descrição da despesa
   value     Float    // Valor da despesa
   date      DateTime @default(now()) // Data da despesa (com valor padrão para o momento da criação)
   category  String   @db.VarChar(20) // Categoria da despesa
-  walletId  String   // Chave estrangeira que referencia a carteira à qual a despesa pertence
+  walletId  Int      // Chave estrangeira que referencia a carteira à qual a despesa pertence
   wallet    Wallet   @relation(fields: [walletId], references: [id]) // Relacionamento com a carteira
 }
+
+
+
