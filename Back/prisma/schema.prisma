@@ -18,7 +18,7 @@ model User {
   id            String   @id @default(uuid())
   name          String   @db.VarChar(255) // VARCHAR(255)
   email         String   @unique @db.VarChar(255) // VARCHAR(255) e único
-  password      String   @db.VarChar(60) // VARCHAR(20)
+  password      String   @db.VarChar(255) // VARCHAR(20)
   ownedWallets  Wallet[] @relation("UserWallets") 
   sharedWallets WalletUser[]
 }
