@@ -1,0 +1,14 @@
+.SpentList{
+    width: 100%;
+    min-height: 55vh;
+
+    box-sizing: border-box;
+    padding: 50px;
+    gap: 2rem; 
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    
+    background-color: aliceblue;   
+    
+}

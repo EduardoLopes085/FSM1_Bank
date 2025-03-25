@@ -4,10 +4,21 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcrypt');
 
 
-//listar todos os usarios
+// Listar todos os usuários com suas carteiras
 async function GetUsers(req, res) {
-    const users = await prisma.user.findMany();
-    res.json(users)
+    try {
+        const users = await prisma.user.findMany({
+            include: {
+                ownedWallets: true,  // Inclui as carteiras que o usuário possui
+                sharedWallets: true, // Inclui as carteiras compartilhadas
+            },
+        });
+
+        res.json(users);
+    } catch (error) {
+        console.error("Erro ao buscar usuários:", error);
+        res.status(500).json({ error: "Erro interno no servidor" });
+    }
 }
 
 async function GetIdUsers(req, res) {
@@ -44,7 +55,7 @@ async function PostUsers(req, res) {
                 password: hashedPassword,
                 ownedWallets: {
                     create: {
-                        name: "minha carteira",
+                        name: `Carteira do ${name}`,
                     },
                 },
 

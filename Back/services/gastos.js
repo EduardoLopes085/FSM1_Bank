@@ -55,22 +55,28 @@ async function GastosPorUser (req, res) {
 // Rota para adicionar um novo gasto
 async function PostGastos(req, res) {
     try {
-        const { descricao, value, date, category } = req.body;
+        const { descricao, value, category, walletId } = req.body; // Inclua o walletId
 
-        // if (!walletId) {
-        //     return res.status(400).json({ error: "walletId é obrigatório" });
-        // }
+        if (!walletId) {
+            return res.status(400).json({ error: "walletId é obrigatório" }); // Valide se o walletId está presente
+        }
 
-
+        // Criação do gasto associado a uma carteira
         const novoGasto = await prisma.expense.create({
-            data: { descricao, value: parseFloat(value),date: new Date(date), category },
+            data: {
+                descricao,
+                value: parseFloat(value),
+                category,
+                walletId // Adicione o walletId aqui
+            },
         });
+
         res.status(201).json(novoGasto);
     } catch (error) {
-        res.status(500).json({ error: "Erro ao adicionar gasto" });
+        res.status(500).json({ error: `Erro ao adicionar gasto: ${error.message}` }); // Melhorei a mensagem de erro
     }
-
 }
+
 
 // Rota para excluir um gasto por ID
 async function DeleteGastos(req, res) {
