@@ -73,3 +73,14 @@ h1{
     background-color: #24262b;
     color: #e91e63;
 }
+
+#paragrafo{
+    color: white;
+    font-size: 20px;
+}
+
+#link{
+    color: rgb(75, 117, 234);
+    font-size: 20px;
+
+}

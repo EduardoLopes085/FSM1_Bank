@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import "./FormRegister.css";
 import Logo from "/coin.png";
+import { useNavigate } from "react-router-dom";
 
 function FormRegister() {
   
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate(); 
 
   
   const onSubmit = async (data) => {
@@ -13,6 +15,7 @@ function FormRegister() {
       const response = await axios.post("http://localhost:4000/postuser", data);
       console.log("Usuário cadastrado:", response.data);
       alert("Cadastro realizado com sucesso!");
+      navigate('/');
     } catch (error) {
       console.error("Erro ao cadastrar usuário:", error.response?.data || error.message);
       alert(`Erro ao cadastrar usuário: ${error.response?.data || error.message}`);

@@ -75,6 +75,8 @@ function Login() {
         </button>
       </form>
 
+      <p id="paragrafo">Ainda não possui conta? <a id="link" href="/register">Cadastre-se</a></p>
+
      
       {errorMessage && <p className="error">{errorMessage}</p>}
     </div>
