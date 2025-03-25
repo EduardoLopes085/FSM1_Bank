@@ -2,14 +2,18 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function GetWallet(req, res) {
-    try{
-        const carteira = await prisma.wallet.findMany()
-        res.json(carteira)
-
-    }catch(error){
+    try {
+        const carteira = await prisma.wallet.findMany({
+            include: {
+                owner: true,          // Inclui todos os dados do dono da carteira (referenciado por `ownerId`)
+                expenses: true,       // Inclui todas as despesas associadas à carteira
+                users: true           // Inclui todos os usuários associados à carteira
+            }
+        });
+        res.json(carteira);
+    } catch (error) {
         res.status(500).json({ error: "Erro ao buscar carteiras" });
-
-    }  
+    }
 }
 
 

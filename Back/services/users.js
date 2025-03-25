@@ -38,16 +38,19 @@ async function GetIdUsers(req, res) {
 
 async function PostUsers(req, res) {
     try {
-        const { name, email, password, ownedWallets } = req.body;
+        const { name, email, password } = req.body; // Removido ownedWallets do corpo, já que a carteira será criada automaticamente
 
-        if (!req.body.name || !req.body.email || !req.body.password) {
+        // Verificação de campos obrigatórios
+        if (!name || !email || !password) {
             return res.status(400).json({
                 message: "Todos os campos obrigatórios devem ser preenchidos."
             });
         }
 
+        // Criptografando a senha
         const hashedPassword = await bcrypt.hash(password, 5);
 
+        // Criando o novo usuário com a carteira associada
         const newUser = await prisma.user.create({
             data: {
                 name,
@@ -55,35 +58,31 @@ async function PostUsers(req, res) {
                 password: hashedPassword,
                 ownedWallets: {
                     create: {
-                        name: `Carteira do ${name}`,
+                        name: `Carteira do ${name}`, // Nome da carteira do usuário
                     },
                 },
-
             },
             include: {
-                ownedWallets: true,
+                ownedWallets: true, // Inclui a carteira criada
             },
-        })
-        
-        // Acessa a carteira criada
-        const wallet = newUser .ownedWallets[0]; 
+        });
 
-        // Cria a entrada na tabela WalletUser 
-        await prisma.walletUser .create({
+        // Acessa a carteira criada
+        const wallet = newUser.ownedWallets[0]; 
+
+        // Associa o usuário à sua carteira criada
+        await prisma.walletUser.create({
             data: {
-                userId: newUser .id,
+                userId: newUser.id,
                 walletId: wallet.id,
             },
         });
         
-        res.status(201).json(newUser);
-
+        res.status(201).json(newUser); // Retorna o novo usuário com a carteira associada
     } catch (error) {
-        console.error(error);
+        console.error("Erro ao adicionar o usuário:", error);
         res.status(500).json({ error: "Erro ao adicionar o Usuário" });
-
     }
-
 }
 
 async function PutUsers(req, res) {
