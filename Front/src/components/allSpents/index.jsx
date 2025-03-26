@@ -1,51 +1,51 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";  // Importando o axios
+import axios from "axios";
 import CardSpent from '../CardSpent';
+import { useParams } from "react-router-dom";
 import './allSpents.css';
 
 function AllSpents() {
   const [spents, setSpents] = useState([]);
-
-  // Acessando o token e userId do sessionStorage
   const token = sessionStorage.getItem("token");
-  const userId = sessionStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId"); // Mantido conforme solicitado
+  const { walletId } = useParams(); // Pegando o ID da carteira pela URL
 
   useEffect(() => {
-    // Verificando se o token e userId estão disponíveis
-    if (!token || !userId) {
-      console.error("Token ou userId não encontrado no sessionStorage.");
+    if (!token || !walletId) {
+      console.error("Token ou walletId não encontrado.");
       return;
     }
 
-    // Usando axios para fazer a requisição
     const fetchSpents = async () => {
       try {
-        const carteiraResponse = await axios.get(`http://localhost:4000/wallet/${userId}`, {
+        const response = await axios.get(`http://localhost:4000/wallet/${walletId}`, {
           headers: {
-            Authorization: `Bearer ${token}`,  // Passando o token no header
+            Authorization: `Bearer ${token}`,
           },
         });
 
-        // Acessando o campo 'expenses' da resposta
-        const expensesData = carteiraResponse.data.expenses;
-        setSpents(expensesData);  // Armazenando apenas os dados de 'expenses'
+        // Aqui você pode filtrar os gastos pelo userId, se quiser
+        // Exemplo:
+        // const userSpents = response.data.expenses.filter(spent => spent.userId === parseInt(userId));
+        // setSpents(userSpents);
+
+        // Ou simplesmente pegar todos os gastos da carteira
+        setSpents(response.data.expenses);
       } catch (err) {
         console.error("Erro ao buscar despesas:", err);
       }
     };
 
     fetchSpents();
-  }, [token, userId]);  // Adicionando dependências ao useEffect
+  }, [token, walletId]);
 
-  // Função para deletar a despesa no estado
   const handleDelete = (id) => {
-  setSpents((prevSpents) => prevSpents.filter((spent) => spent.id !== id));
-};
+    setSpents((prev) => prev.filter((s) => s.id !== id));
+  };
 
   return (
     <div className="SpentList">
       {spents.map((spent) => (
-        // Passando a função onDelete para o CardSpent
         <CardSpent
           key={spent.id}
           description={spent.descricao}
@@ -53,7 +53,7 @@ function AllSpents() {
           date={spent.date}
           category={spent.category}
           id={spent.id}
-          onDelete={handleDelete}  // Passando a função de deleção
+          onDelete={handleDelete}
         />
       ))}
     </div>
