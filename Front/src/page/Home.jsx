@@ -2,15 +2,15 @@ import React from 'react'
 
 import Header from '../components/header';
 import Footer from '../components/footer';
-import AllSpent from '../components/allSpents';
+import AllWallets from '../components/allWallets';
+
 
 function Home() {
   return (
     <div>
         <Header/>
-        <AllSpent/>
+        <AllWallets/>
         <Footer/>
-
     </div>
   )
 }

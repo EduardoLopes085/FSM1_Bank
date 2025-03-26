@@ -68,12 +68,12 @@ function AddSpent() {
           onChange={handleChange} 
         />
 
-        <input 
+        {/* <input 
           type="date" 
           name="date" 
           value={formData.date} 
           onChange={handleChange} 
-        />
+        /> */}
 
         <select 
           name="category" 

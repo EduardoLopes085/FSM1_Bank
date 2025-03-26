@@ -9,7 +9,7 @@ function Header() {
 
       <nav className='Navigation'>
 
-        <a href="/">Home</a>
+        <a href="/home">Home</a>
         <a href="/addspent">Adicionar Gasto</a>
         <a href="spentList">Lista de Gastos</a>
         <a href="/ChartsPage">Relatórios</a>

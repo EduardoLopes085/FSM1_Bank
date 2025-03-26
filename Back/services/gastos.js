@@ -89,11 +89,11 @@ async function DeleteGastos(req, res) {
             return res.status(404).json({ error: "Gasto não encontrado" });
         }
 
-        await prisma.expense.delete({ where: { id } });
+        await prisma.expense.delete({ where: { id: parseInt(id) } });
 
-        res.json({ message: "Gasto excluído com sucesso!" });
+        res.status(200).json({ message: "Gasto excluído com sucesso!" });
     } catch (error) {
-        res.status(500).json({ error: "Erro ao excluir gasto" });
+        res.status(500).json({ error: `Erro ao excluir gasto. ${error}` });
     }
 }
 

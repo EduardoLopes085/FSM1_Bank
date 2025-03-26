@@ -6,7 +6,7 @@ const app = express();
 const {GetUsers, GetIdUsers, PostUsers, PutUsers, DeleteUsers} = require('./services/users');
 const {GetGastos, GetIdGastos, GastosPorUser, PostGastos, DeleteGastos} = require('./services/gastos');
 const {GetWallet, GetIdWallet} = require('./services/wallet');
-const GetWalletUser = require('./services/walletUser');
+const {GetWalletUser, shareWallet } = require('./services/walletUser');
 const login = require('./services/login');
 const authToken = require('./middlewares/auth');
 
@@ -21,7 +21,7 @@ app.use(cors()); // Isso vai permitir que qualquer origem faça requisições pa
 app.post('/login', login);
 
 // CRUD dos Users
-app.get("/getusers", authToken , GetUsers );
+app.get("/getusers", GetUsers );
 app.get("/getuserbyid/:id", authToken , GetIdUsers);
 app.post("/postuser", PostUsers);
 app.put("/users/:id", authToken , PutUsers);
@@ -32,7 +32,7 @@ app.get("/gastos", authToken , GetGastos);
 app.get("/gastos/:id", authToken , GetIdGastos);
 app.get('/gastosPorUser/:id', authToken , GastosPorUser );
 app.post("/gastos", PostGastos);
-app.delete("/gastos/:id", authToken , DeleteGastos);
+app.delete("/gastos/:id", DeleteGastos);
 
 // Wallet
 app.get("/wallet", GetWallet);
@@ -40,6 +40,11 @@ app.get("/wallet/:id", GetIdWallet);
 
 // WalletUsers
 app.get("/walletUsers", GetWalletUser);
+
+ 
+// Rota para compartilhar a carteira com um usuário
+app.post("/wallet/share", shareWallet);
+
 
 // Inicia o servidor
 app.listen(PORT, () => {
