@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import axios from "axios";
 import './addSpent.css';
 
 function AddSpent() {
   const token = sessionStorage.getItem("token");
+  const walletId = sessionStorage.getItem("walletId"); // Supondo que você armazene o walletId aqui
   
   const [formData, setFormData] = useState({
-    description: '',
+    descricao: '',
     value: '',
     date: '',
     category: ''
@@ -19,27 +21,31 @@ function AddSpent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verifica se todos os campos estão preenchidos
-    if (!formData.description || !formData.value || !formData.date || !formData.category) {
+    if (!formData.descricao || !formData.value  || !formData.category) {
       alert("Preencha todos os campos!");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:3000/spent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+      const response = await axios.post("http://localhost:4000/gastos", {
+        ...formData,
+        walletId // Envia o walletId junto
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}` // Remova se não estiver usando JWT
+        }
       });
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         alert("Despesa adicionada com sucesso!");
-        setFormData({ description: '', value: '', date: '', category: '' }); // Limpa o formulário
+        setFormData({ descricao: '', value: '', date: '', category: '' });
       } else {
         alert("Erro ao adicionar despesa.");
       }
     } catch (error) {
-      console.error("Erro ao enviar dados:", error);
+      console.error("Erro na requisição:", error.response?.data || error.message);
+      alert("Erro ao enviar os dados. Veja o console para detalhes.");
     }
   };
 
@@ -49,7 +55,7 @@ function AddSpent() {
         <input 
           type="text" 
           placeholder='Descrição' 
-          name="description" 
+          name="descricao" 
           value={formData.descricao} 
           onChange={handleChange} 
         />

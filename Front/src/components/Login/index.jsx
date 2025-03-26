@@ -13,33 +13,47 @@ function Login() {
 
   // Função chamada quando o formulário for enviado
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Impede o comportamento padrão do formulário
-
+    e.preventDefault();
+  
     try {
-      
       const response = await axios.post("http://localhost:4000/login", {
         email,
         password,
       });
-
-      // Se o login for bem-sucedido, o token será retornado
+  
       const token = response.data.token;
-
-      // Armazena o token no localStorage para autenticação em futuras requisições
+      const userId = response.data.user.id;
+  
+      // Salvar token e userId
       sessionStorage.setItem("token", token);
-
-      // Alerta de sucesso
+      sessionStorage.setItem("userId", userId);
+  
+      // Buscar a carteira do usuário
+      const carteiraResponse = await axios.get(`http://localhost:4000/wallet/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+  
+      const carteira = carteiraResponse.data;
+  
+      if (carteira && carteira.id) {
+        sessionStorage.setItem("walletId", carteira.id);
+        console.log("Carteira encontrada! walletId salvo:", carteira.id);
+      } else {
+        alert("Carteira não encontrada.");
+      }
+  
       alert("Login bem-sucedido!");
-
-      
       navigate('/home');
+  
     } catch (error) {
-     
       setErrorMessage(
         error.response?.data.message || `Erro ao fazer login: ${error.message}`
       );
     }
   };
+  
 
   return (
     <div id="divLogin">
