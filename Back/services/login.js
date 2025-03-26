@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const SECRET_KEY = 'EFKAJDJKSJFASDNCZ45'; // idealmente usar em variável de ambiente
+const SECRET_KEY = 'EFKAJDJKSJFASDNCZ45'; // idealmente usar variável de ambiente
 
 async function login(req, res) {
   const { email, password } = req.body;
@@ -26,7 +26,14 @@ async function login(req, res) {
     { expiresIn: '5h' }
   );
 
-  res.json({ token });
+  // 👇 Aqui incluímos o user (sem a senha, claro!)
+  res.json({
+    token,
+    user: {
+      id: user.id,
+      email: user.email
+    }
+  });
 }
 
-module.exports= login;
+module.exports = login;

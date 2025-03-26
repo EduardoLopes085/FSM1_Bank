@@ -67,7 +67,7 @@ async function PostGastos(req, res) {
                 descricao,
                 value: parseFloat(value),
                 category,
-                walletId // Adicione o walletId aqui
+                walletId: parseInt(walletId) // Adicione o walletId aqui
             },
         });
 
