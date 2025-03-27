@@ -16,11 +16,11 @@ function ShareWalletForm() {
     const fetchData = async () => {
       try {
         // Buscar carteiras do usuário logado
-        const walletRes = await axios.get(`http://localhost:4000/wallet`, {
+        const walletRes = await axios.get(`http://localhost:4000/wallet/${currentUserId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        setWallets(walletRes.data);
+        setWallets([walletRes.data]);
 
         // Buscar todos os usuários (exceto o atual)
         const userRes = await axios.get(`http://localhost:4000/getusers`, {
@@ -48,7 +48,7 @@ function ShareWalletForm() {
 
     try {
       const response = await axios.post(
-        'http://localhost:4000/sharewallet',
+        'http://localhost:4000/wallet/share',
         { walletId, userId },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -60,6 +60,7 @@ function ShareWalletForm() {
       setUserId('');
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Erro ao compartilhar carteira.';
+      console.error(err);
       setMessage(errorMsg);
     }
   };
